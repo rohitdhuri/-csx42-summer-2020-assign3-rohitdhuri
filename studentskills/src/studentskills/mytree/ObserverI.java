@@ -1,5 +1,5 @@
 package studentskills.mytree;
 
-public class ObserverI {
+public interface ObserverI {
     
 }

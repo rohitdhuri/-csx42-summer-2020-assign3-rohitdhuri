@@ -47,7 +47,11 @@
 <target name="run" depends="jar">
         <java jar="${BUILD}/jar/studentskills.jar"  fork="true">
 	<arg value="${input}"/> <!-- input file -->
-	<arg value="${output}"/> <!-- output file -->
+	<arg value="${modify}"/> <!-- modify file -->
+	<arg value="${out1}"/> <!-- output file 1 -->
+	<arg value="${out2}"/> <!-- output file 2 -->
+	<arg value="${out3}"/> <!-- output file 3 -->
+
         </java>	
     </target>
 

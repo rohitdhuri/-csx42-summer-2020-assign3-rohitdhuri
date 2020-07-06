@@ -1,5 +1,5 @@
 package studentskills.mytree;
 
-public class SubjectI {
+public interface SubjectI {
     
 }
