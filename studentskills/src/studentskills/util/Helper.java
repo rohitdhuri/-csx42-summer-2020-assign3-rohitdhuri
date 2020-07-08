@@ -3,11 +3,18 @@ package studentskills.util;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class InputParser {
-    private FileProcessor fp;
+import studentskills.mytree.StudentRecord;
+import studentskills.mytree.TreeHelper;
 
-    public InputParser(FileProcessor fp) {
+public class Helper {
+    private FileProcessor fp;
+    private TreeHelper replicaTree0, replicaTree1, replicaTree2;
+
+    public Helper(FileProcessor fp) {
         this.fp = fp;
+        replicaTree0 = new TreeHelper();
+        replicaTree1 = new TreeHelper();
+        replicaTree2 = new TreeHelper();
     }
 
     public void process() throws IOException {
@@ -35,8 +42,20 @@ public class InputParser {
                 }
             }
 
+            //System.out.println(bNumber + firstName + lastName + gpa + major+"  "+skills);
 
-            System.out.println(bNumber + firstName + lastName + gpa + major+"  "+skills);
+            StudentRecord replicaNode0 = new StudentRecord(bNumber, firstName, lastName, gpa, major, skills);
+            StudentRecord replicaNode1 = replicaNode0.clone();
+            StudentRecord replicaNode2 = replicaNode0.clone();
+            replicaNode0.registerObservers(replicaNode1, replicaNode2);
+            replicaTree0.add(replicaNode0);
+
+            replicaNode1.registerObservers(replicaNode0, replicaNode2);
+            replicaTree1.add(replicaNode1);
+
+            replicaNode2.registerObservers(replicaNode0, replicaNode1);
+            replicaTree2.add(replicaNode2);
+
 
             str = fp.poll();
         }
