@@ -34,19 +34,24 @@ public class Helper {
             ArrayList<String> skills = new ArrayList<String>();
             Integer i = 0;
             while (i < (values.length - 4)) {
-                if (values[i+4] != null) {
-                    skills.add(values[i+4]);
+                if (values[i + 4] != null) {
+                    skills.add(values[i + 4]);
                     i++;
                 } else {
                     break;
                 }
             }
 
-            //System.out.println(bNumber + firstName + lastName + gpa + major+"  "+skills);
+            // System.out.println(bNumber + firstName + lastName + gpa + major+" "+skills);
 
             StudentRecord replicaNode0 = new StudentRecord(bNumber, firstName, lastName, gpa, major, skills);
             StudentRecord replicaNode1 = replicaNode0.clone();
             StudentRecord replicaNode2 = replicaNode0.clone();
+           // if (replicaNode0 != null)
+              //  System.out.println("helper " + replicaNode0.getBNumber());
+            // if(replicaNode2 != null)
+            // System.out.println("helper "+ replicaNode2);
+
             replicaNode0.registerObservers(replicaNode1, replicaNode2);
             replicaTree0.add(replicaNode0);
 
@@ -56,8 +61,12 @@ public class Helper {
             replicaNode2.registerObservers(replicaNode0, replicaNode1);
             replicaTree2.add(replicaNode2);
 
-
             str = fp.poll();
         }
+        String tree0 = replicaTree0.printInorder();
+        String tree1 = replicaTree0.printInorder();
+        String tree2 = replicaTree0.printInorder();
+
+        System.out.println(" " + tree0 + "\n" + " " + tree1 + "\n" + " " + tree2 + "\n");
     }
 }

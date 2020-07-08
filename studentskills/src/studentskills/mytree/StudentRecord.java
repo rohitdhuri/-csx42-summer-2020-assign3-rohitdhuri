@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class StudentRecord implements SubjectI, ObserverI, Cloneable {
     private StudentRecord left;
     private StudentRecord right;
-    private ArrayList<StudentRecord> observers;
+    private StudentRecord observer1;
+    private StudentRecord observer2;
 
     private final Integer bNumber;
     private String firstName, lastName, major;
@@ -27,38 +28,56 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
          * for (String s : skills) { if (!this.skills.contains(s)) this.skills.add(s); }
          */
 
-
     }
 
-
-
-    public StudentRecord getRight(){
+    public StudentRecord getRight() {
         return right;
     }
 
-    public StudentRecord getLeft(){
+    public StudentRecord getLeft() {
         return left;
     }
 
-    public Integer getBNumber(){
+    public Integer getBNumber() {
         return bNumber;
     }
 
-    public void setLeft(StudentRecord node){
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public Double getGpa() {
+        return gpa;
+    }
+
+    public ArrayList<String> getSkills() {
+        return skills;
+    }
+
+
+
+    public void setLeft(StudentRecord node) {
         this.left = node;
     }
 
-    public void setRight(StudentRecord node){
+    public void setRight(StudentRecord node) {
         this.right = node;
     }
 
-    public void registerObservers(StudentRecord replicaNode1, StudentRecord replicaNode2){
-        observers.add(replicaNode1);
-        observers.add(replicaNode2);
+    public void registerObservers(StudentRecord replicaNode1, StudentRecord replicaNode2) {
+        observer1 = replicaNode1;
+        observer2 = replicaNode2;
     }
 
-    public StudentRecord clone()
-    {
+    public StudentRecord clone() {
         return new StudentRecord(bNumber, firstName, lastName, gpa, major, skills);
     }
 }
