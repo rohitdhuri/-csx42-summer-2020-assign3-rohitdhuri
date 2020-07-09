@@ -1,34 +1,32 @@
 package studentskills.mytree;
 
+import studentskills.util.Operation;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StudentRecord implements SubjectI, ObserverI, Cloneable {
     private StudentRecord left;
     private StudentRecord right;
-    private StudentRecord observer1;
-    private StudentRecord observer2;
 
     private final Integer bNumber;
     private String firstName, lastName, major;
     private Double gpa;
-    private ArrayList<String> skills;
-    public Boolean firstNameFlag, lastNameFlag, majorFlag, skillsFlag;
+    private Set<String> skills;
+    ArrayList<StudentRecord> observers;
 
     public StudentRecord(Integer bNumber, String firstName, String lastName, Double gpa, String major,
-            ArrayList<String> skills) {
+            Set<String> skills) {
         this.bNumber = bNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gpa = gpa;
         this.major = major;
-        this.skills = new ArrayList<String>(skills);
+        this.skills = new HashSet<String>(skills);
+        observers = new ArrayList<StudentRecord>();
 
         left = null;
         right = null;
-        resetFlags();
-        /*
-         * for (String s : skills) { if (!this.skills.contains(s)) this.skills.add(s); }
-         */
 
     }
 
@@ -60,7 +58,7 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
         return gpa;
     }
 
-    public ArrayList<String> getSkills() {
+    public Set<String> getSkills() {
         return skills;
     }
 
@@ -72,84 +70,75 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
         this.right = node;
     }
 
-    public void setFirstName(String newValue) {
-        firstName = newValue;
-    }
-
-    public void setLastName(String newValue) {
-        lastName = newValue;
-    }
-
-    public void setMajor(String newValue) {
-        major = newValue;
-    }
-
-    public void setSkills(ArrayList<String> newValue) {
-        skills = newValue;
-    }
-
-
     public void recordChanged(String value, String replacement) {
 
         if (value.equals(firstName)) {
             firstName = replacement;
-            firstNameFlag = true;
         } else if (value.equals(lastName)) {
             lastName = replacement;
-            lastNameFlag = true;
         } else if (value.equals(major)) {
             major = replacement;
-            majorFlag = true;
         } else if (skills.contains(value)) {
             skills.remove(value);
             skills.add(replacement);
-            skillsFlag = true;
         }
+    }
 
+    public void recordChanged(Integer bNumber, String inFirstName, String inLastName, Double inGpa, String inMajor,
+            Set<String> inSkills) {
+        if (!firstName.equals(inFirstName)) {
+            firstName = inFirstName;
+        }
+        if (!lastName.equals(inLastName)) {
+            lastName = inLastName;
+        }
+        if (!gpa.equals(inGpa)) {
+            gpa = inGpa;
+        }
+        if (!major.equals(inMajor)) {
+            major = inMajor;
+        }
+        if (!skills.equals(inSkills)) {
+            skills.addAll(inSkills);
+        }
     }
 
     public StudentRecord clone() {
         return new StudentRecord(bNumber, firstName, lastName, gpa, major, skills);
     }
 
-    public void register(StudentRecord replicaNode_1, StudentRecord replicaNode_2) {
-        observer1 = replicaNode_1;
-        observer2 = replicaNode_2;
+    public void register(StudentRecord replicaNode) {
+        StudentRecord ob = replicaNode;
+        observers.add(ob);
     }
 
-    public ArrayList<StudentRecord> getObservers(){
-        ArrayList<StudentRecord> observers = new ArrayList<StudentRecord>();
-        observers.add(observer1);
-        observers.add(observer2);
-        return observers;
-    }
+    public void update(StudentRecord subject, Operation op) {
 
-    public void resetFlags(){
-        firstNameFlag= lastNameFlag= majorFlag = skillsFlag = false; 
-    }
-
-    public void update(StudentRecord subject){
-        if(subject.firstNameFlag){
-            firstName= subject.getFirstName();
-        } 
-        else if(subject.lastNameFlag){
-            lastName= subject.getLastName();
+        if (op.equals(Operation.MODIFY)) {
+            if (!subject.getFirstName().equals(getFirstName())) {
+                firstName = subject.getFirstName();
+            } else if (!subject.getLastName().equals(getLastName())) {
+                lastName = subject.getLastName();
+            } else if (!subject.getMajor().equals(getMajor())) {
+                major = subject.getMajor();
+            } else if (!subject.getSkills().equals(getSkills())) {
+                skills = subject.getSkills();
+            }
         }
-        else if(subject.majorFlag){
-            major= subject.getMajor();
-        }
-        else if(subject.skillsFlag){
+        if (op.equals(Operation.INSERT)) {
+            firstName = subject.getFirstName();
+            lastName = subject.getLastName();
+            major = subject.getMajor();
+            gpa = subject.getGpa();
             skills = subject.getSkills();
         }
     }
 
     @Override
-    public void notifyObservers(){
+    public void notifyObservers(Operation op) {
 
-        observer1.update(this);
-        observer2.update(this);
-        resetFlags();
-
+        for (ObserverI obs : observers) {
+            obs.update(this, op);
+        }
     }
-
 }

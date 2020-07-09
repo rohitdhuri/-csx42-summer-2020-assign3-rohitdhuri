@@ -34,14 +34,6 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface {
     }
 
     /**
-     * storeMetrics method stores the metrics calculated into the local variable
-     */
-
-    public void storeMetrics(String metrics) {
-        output = metrics;
-    }
-
-    /**
      * Implemented writeToStdout method writes to the console
      */
 

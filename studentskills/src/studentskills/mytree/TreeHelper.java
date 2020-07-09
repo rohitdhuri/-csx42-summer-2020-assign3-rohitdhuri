@@ -1,7 +1,5 @@
 package studentskills.mytree;
 
-import java.util.ArrayList;
-
 public class TreeHelper {
     private StudentRecord root;
     private String outputBuffer;
@@ -50,7 +48,7 @@ public class TreeHelper {
         inorder(root.getRight());
     }
 
-    public StudentRecord findNode(Integer bNumber) {
+    public StudentRecord findRecord(Integer bNumber) {
 
         StudentRecord curr = root;
         while (curr != null) {
