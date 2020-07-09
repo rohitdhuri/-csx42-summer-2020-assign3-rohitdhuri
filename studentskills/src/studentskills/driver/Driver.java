@@ -1,7 +1,8 @@
 package studentskills.driver;
 
 import studentskills.util.FileProcessor;
-import studentskills.util.Helper;
+import studentskills.util.Parser;
+
 
 public class Driver {
     private static final int REQUIRED_NUMBER_OF_CMDLINE_ARGS = 5;
@@ -23,8 +24,11 @@ public class Driver {
         FileProcessor fpModify = new FileProcessor(args[1]);
 
 
-        Helper hl = new Helper(fpInput);
+        Parser ip = new Parser(fpInput, fpModify);
+        ip.processInput();
+        ip.processModify();
 
-        hl.process();
+
+
     }
 }

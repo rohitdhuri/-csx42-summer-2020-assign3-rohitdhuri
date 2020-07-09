@@ -42,27 +42,23 @@ public class TreeHelper {
         if (root == null)
             return;
 
-        /* first recur on left child */
         inorder(root.getLeft());
 
-        /* then print the data of node */
-        outputBuffer += root.getBNumber() +" "+ root.getFirstName() +" "+ root.getLastName() +" "+ root.getGpa() +" "+ root.getMajor()
-                +" "+ root.getSkills() + "\n";
+        outputBuffer += root.getBNumber() + " " + root.getFirstName() + " " + root.getLastName() + " " + root.getGpa()
+                + " " + root.getMajor() + " " + root.getSkills() + "\n";
 
-        /* now recur on right child */
         inorder(root.getRight());
     }
 
     public StudentRecord findNode(Integer bNumber) {
 
         StudentRecord curr = root;
-
         while (curr != null) {
-            if (curr.getBNumber() == bNumber) {
+            if (curr.getBNumber().compareTo(bNumber) == 0) {
                 return curr;
-            } else if (curr.getBNumber() > bNumber) {
+            } else if (curr.getBNumber().compareTo(bNumber) > 0) {
                 curr = curr.getLeft();
-            } else if (curr.getBNumber() < bNumber) {
+            } else if (curr.getBNumber().compareTo(bNumber) < 0) {
                 curr = curr.getRight();
             }
         }
