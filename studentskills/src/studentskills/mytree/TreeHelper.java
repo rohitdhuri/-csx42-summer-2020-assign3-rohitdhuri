@@ -30,7 +30,7 @@ public class TreeHelper {
         return root;
     }
 
-    public String printInorder() {
+    public String printNodes() {
         outputBuffer = "";
         inorder(root);
         return outputBuffer;
@@ -42,8 +42,7 @@ public class TreeHelper {
 
         inorder(root.getLeft());
 
-        outputBuffer += root.getBNumber() + " " + root.getFirstName() + " " + root.getLastName() + " " + root.getGpa()
-                + " " + root.getMajor() + " " + root.getSkills() + "\n";
+        outputBuffer += root.getBNumber() + " " + root.getSkills() + "\n";
 
         inorder(root.getRight());
     }

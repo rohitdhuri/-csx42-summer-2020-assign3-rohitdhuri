@@ -1,19 +1,24 @@
 package studentskills.util;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.util.HashSet;
 import java.util.Set;
 
 import studentskills.mytree.StudentRecord;
 import studentskills.mytree.SubjectI;
 import studentskills.mytree.TreeHelper;
+import studentskills.util.exception.EmptyFileException;
+import studentskills.util.exception.InvalidInputFormat;
 
 public class Parser {
     private FileProcessor iFp, mFp;
     private TreeHelper replicaTree_0, replicaTree_1, replicaTree_2;
-    private Results results_0, results_1, results_2;
+    private Results results_0, results_1, results_2, error, debug;
 
-    public Parser(FileProcessor iFp, FileProcessor mFp, Results results_0, Results results_1, Results results_2) {
+    public Parser(FileProcessor iFp, FileProcessor mFp, Results results_0, Results results_1, Results results_2,
+            Results error, Results debug) {
         this.iFp = iFp;
         this.mFp = mFp;
         replicaTree_0 = new TreeHelper();
@@ -22,15 +27,24 @@ public class Parser {
         this.results_0 = results_0;
         this.results_1 = results_1;
         this.results_2 = results_2;
+        this.error = error;
+        this.debug = debug;
     }
 
-    public void processInput() throws IOException {
+    public void processInput() throws IOException, EmptyFileException, NumberFormatException, InvalidPathException,
+            SecurityException, FileNotFoundException, InvalidInputFormat {
         Integer bNumber;
         String str = iFp.poll();
+        if (str == null) {
+            throw new EmptyFileException("Input file empty.");
+        }
 
         while (str != null) {
             String tokens[] = str.split(":");
             bNumber = Integer.parseInt(tokens[0]);
+            if (String.valueOf(bNumber).length() != 4) {
+                throw new InvalidInputFormat("Invalid bNumber");
+            }
 
             str = tokens[1];
             String[] values = str.split(",");
@@ -52,21 +66,21 @@ public class Parser {
             StudentRecord record = replicaTree_0.findRecord(bNumber);
 
             if (record == null) {
-                StudentRecord replicaNode0 = new StudentRecord(bNumber, firstName, lastName, gpa, major, skills);
-                StudentRecord replicaNode1 = replicaNode0.clone();
-                StudentRecord replicaNode2 = replicaNode0.clone();
+                StudentRecord replica_Node_0 = new StudentRecord(bNumber, firstName, lastName, gpa, major, skills);
+                StudentRecord replica_Node_1 = replica_Node_0.clone();
+                StudentRecord replica_Node_2 = replica_Node_0.clone();
 
-                replicaNode0.register(replicaNode1);
-                replicaNode0.register(replicaNode2);
-                replicaTree_0.add(replicaNode0);
+                replica_Node_0.register(replica_Node_1);
+                replica_Node_0.register(replica_Node_2);
+                replicaTree_0.add(replica_Node_0);
 
-                replicaNode1.register(replicaNode0);
-                replicaNode1.register(replicaNode2);
-                replicaTree_1.add(replicaNode1);
+                replica_Node_1.register(replica_Node_0);
+                replica_Node_1.register(replica_Node_2);
+                replicaTree_1.add(replica_Node_1);
 
-                replicaNode2.register(replicaNode0);
-                replicaNode2.register(replicaNode1);
-                replicaTree_2.add(replicaNode2);
+                replica_Node_2.register(replica_Node_0);
+                replica_Node_2.register(replica_Node_1);
+                replicaTree_2.add(replica_Node_2);
             } else {
                 record.recordChanged(bNumber, firstName, lastName, gpa, major, skills);
                 record.notifyObservers(Operation.INSERT);
@@ -76,45 +90,51 @@ public class Parser {
         }
     }
 
-    public void processModify() throws IOException {
-
+    public void processModify() throws IOException, EmptyFileException, NumberFormatException {
         String str = mFp.poll();
+        if (str == null) {
+            throw new EmptyFileException("Modify file empty.");
+        }
 
         while (str != null) {
-            String treeNumber = str.split(",")[0];
-            String bNumber = str.split(",")[1];
-            String value = (str.split(",")[2]).split(":")[0];
-            String replacement = (str.split(",")[2]).split(":")[1];
+            try {
+                String treeNumber = str.split(",")[0];
+                Integer bNumber = Integer.parseInt(str.split(",")[1]);
+                String value = (str.split(",")[2]).split(":")[0];
+                String replacement = (str.split(",")[2]).split(":")[1];
 
-            if (treeNumber.equals(Replica.replicaTree_0.getConstantValue())) {
-                SubjectI record = replicaTree_0.findRecord(Integer.parseInt(bNumber));
-                if (record != null) {
-                    record.recordChanged(value, replacement);
-                    record.notifyObservers(Operation.MODIFY);
+                if (treeNumber.equals(Replica.replicaTree_0.getConstantValue())) {
+                    SubjectI record = replicaTree_0.findRecord(bNumber);
+                    if (record != null) {
+                        record.recordChanged(value, replacement);
+                        record.notifyObservers(Operation.MODIFY);
+                    }
+                } else if (treeNumber.equals(Replica.replicaTree_1.getConstantValue())) {
+                    SubjectI record = replicaTree_1.findRecord(bNumber);
+                    if (record != null) {
+                        record.recordChanged(value, replacement);
+                        record.notifyObservers(Operation.MODIFY);
+                    }
+                } else if (treeNumber.equals(Replica.replicaTree_2.getConstantValue())) {
+                    SubjectI record = replicaTree_2.findRecord(bNumber);
+                    if (record != null) {
+                        record.recordChanged(value, replacement);
+                        record.notifyObservers(Operation.MODIFY);
+                    }
                 }
-            } else if (treeNumber.equals(Replica.replicaTree_1.getConstantValue())) {
-                SubjectI record = replicaTree_1.findRecord(Integer.parseInt(bNumber));
-                if (record != null) {
-                    record.recordChanged(value, replacement);
-                    record.notifyObservers(Operation.MODIFY);
-                }
-            } else if (treeNumber.equals(Replica.replicaTree_2.getConstantValue())) {
-                SubjectI record = replicaTree_2.findRecord(Integer.parseInt(bNumber));
-                if (record != null) {
-                    record.recordChanged(value, replacement);
-                    record.notifyObservers(Operation.MODIFY);
-                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                error.storeOutput("Input field empty in modify file.\n");
+            } catch (InvalidInputFormat e) {
+                error.storeOutput(e.getMessage());
             }
 
             str = mFp.poll();
+
         }
 
-        String tree0 = replicaTree_0.printInorder();
-        results_0.storeOutput(tree0);
-        String tree1 = replicaTree_1.printInorder();
-        results_1.storeOutput(tree1);
-        String tree2 = replicaTree_2.printInorder();
-        results_2.storeOutput(tree2);
+        results_0.storeOutput(replicaTree_0.printNodes());
+        results_1.storeOutput(replicaTree_1.printNodes());
+        results_2.storeOutput(replicaTree_2.printNodes());
 
     }
 

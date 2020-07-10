@@ -1,6 +1,8 @@
 package studentskills.mytree;
 
 import studentskills.util.Operation;
+import studentskills.util.exception.InvalidInputFormat;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -70,7 +72,7 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
         this.right = node;
     }
 
-    public void recordChanged(String value, String replacement) {
+    public void recordChanged(String value, String replacement) throws InvalidInputFormat {
 
         if (value.equals(firstName)) {
             firstName = replacement;
@@ -81,6 +83,8 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
         } else if (skills.contains(value)) {
             skills.remove(value);
             skills.add(replacement);
+        } else {
+            throw new InvalidInputFormat("Invalid modify field");
         }
     }
 

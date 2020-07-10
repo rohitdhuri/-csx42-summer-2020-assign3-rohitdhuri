@@ -51,6 +51,8 @@
 	<arg value="${out1}"/> <!-- output file 1 -->
 	<arg value="${out2}"/> <!-- output file 2 -->
 	<arg value="${out3}"/> <!-- output file 3 -->
+	<arg value="${error}"/> <!-- error file 3 -->
+  <arg value="${debug}"/> <!-- debug file 3 -->
 
         </java>	
     </target>

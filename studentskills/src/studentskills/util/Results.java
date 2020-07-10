@@ -23,6 +23,7 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface {
 
     public Results(String path) {
         filePath = path;
+        output = "";
     }
 
     /**
@@ -30,7 +31,7 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface {
      */
 
     public void storeOutput(String buffer) {
-        output = buffer;
+        output += buffer;
     }
 
     /**
