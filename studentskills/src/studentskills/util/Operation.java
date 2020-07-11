@@ -6,7 +6,7 @@ public enum Operation {
     private final String stStr;
 
     /**
-     * StateName constructor used for creating constant
+     * Operation constructor used for creating constant
      * 
      * @param - String value
      */
@@ -15,7 +15,7 @@ public enum Operation {
     }
 
     /**
-     * This function returns the constatnt value of an enum
+     * This function returns the constant value of an enum
      * 
      */
     public String getConstantValue() {

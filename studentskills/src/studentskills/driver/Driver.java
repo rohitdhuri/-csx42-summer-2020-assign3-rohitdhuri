@@ -29,9 +29,11 @@ public class Driver {
             System.exit(0);
         }
 
+        /** Providing input file paths to FileProcessor during initalization */
         FileProcessor fpInput = new FileProcessor(args[0]);
         FileProcessor fpModify = new FileProcessor(args[1]);
 
+        /**Providing output file paths to Results class dutring initialization */
         Results results_0 = new Results(args[2]);
         Results results_1 = new Results(args[3]);
         Results results_2 = new Results(args[4]);
@@ -53,6 +55,7 @@ public class Driver {
             FileDisplayInterface fdi_2 = results_2;
             FileDisplayInterface fdi_e = results_e;
 
+            /**Writing to file using the FileDisplayInterface */
             MyLogger.writeMessage("Calling writeToFile from Results for output1", MyLogger.DebugLevel.DRIVER);
             fdi_0.writeToFile();
             MyLogger.writeMessage("Calling writeToFile from Results for output2", MyLogger.DebugLevel.DRIVER);

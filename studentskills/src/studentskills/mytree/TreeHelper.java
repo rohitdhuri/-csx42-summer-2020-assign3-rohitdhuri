@@ -4,15 +4,30 @@ public class TreeHelper {
     private StudentRecord root;
     private String outputBuffer;
 
+    /**
+     * Constructor inilatizes root to null
+     */
     public TreeHelper() {
         root = null;
     }
 
+    /**
+     * Adds a node to the tree
+     * 
+     * @param newRecord - node to be added
+     */
     public void add(StudentRecord newRecord) {
         root = this.addRecursive(root, newRecord);
 
     }
 
+    /**
+     * Method the travel to the bottom of a tree and add node
+     * 
+     * @param root
+     * @param newRecord
+     * @return - returns the root of updated tree
+     */
     public StudentRecord addRecursive(StudentRecord root, StudentRecord newRecord) {
         Integer bNumber = newRecord.getBNumber();
 
@@ -30,12 +45,22 @@ public class TreeHelper {
         return root;
     }
 
+    /**
+     * Prints the nodes of tree into a buffer
+     * 
+     * @return - The Buffer of type string
+     */
     public String printNodes() {
         outputBuffer = "";
         inorder(root);
         return outputBuffer;
     }
 
+    /**
+     * Travels the tree inorder to print nodes in ascending format
+     * 
+     * @param - root node of type studentRecord
+     */
     public void inorder(StudentRecord root) {
         if (root == null)
             return;
@@ -45,6 +70,12 @@ public class TreeHelper {
         inorder(root.getRight());
     }
 
+    /**
+     * Finds a Node in the tree using the bNumber and then return that node
+     * 
+     * @param bNumber - bNumber of node to find
+     * @return - Searched Node
+     */
     public StudentRecord findRecord(Integer bNumber) {
 
         StudentRecord curr = root;

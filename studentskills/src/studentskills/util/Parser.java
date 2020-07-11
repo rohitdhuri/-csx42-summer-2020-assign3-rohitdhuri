@@ -12,11 +12,25 @@ import studentskills.mytree.TreeHelper;
 import studentskills.util.exception.EmptyFileException;
 import studentskills.util.exception.InvalidInputFormat;
 
+/**
+ * Parser class contains methods to process the input files
+ */
 public class Parser {
     private FileProcessor iFp, mFp;
     private TreeHelper replicaTree_0, replicaTree_1, replicaTree_2;
     private Results results_0, results_1, results_2, results_e;
 
+    /**
+     * Constructor inilaizes the results and fileprocessor objects. Also inilializes
+     * three instances of treeHelper
+     * 
+     * @param iFp       - fileprocessor object for input file
+     * @param mFp       - fileprocessor object for modify file
+     * @param results_0 - results object
+     * @param results_1 - results object
+     * @param results_2 - results object
+     * @param results_e - results object
+     */
     public Parser(FileProcessor iFp, FileProcessor mFp, Results results_0, Results results_1, Results results_2,
             Results results_e) {
         MyLogger.writeMessage("Parser parameterized constructor", MyLogger.DebugLevel.PARSER);
@@ -32,14 +46,27 @@ public class Parser {
         this.results_e = results_e;
     }
 
-    public void processInput() throws IOException, EmptyFileException, NumberFormatException, InvalidPathException,
-            SecurityException, FileNotFoundException, InvalidInputFormat {
+    /**
+     * Parses throught the entire input file and processes each line at a time
+     * 
+     * @throws EmptyFileException
+     * @throws NumberFormatException
+     * @throws InvalidPathException
+     * @throws SecurityException
+     * @throws FileNotFoundException
+     * @throws InvalidInputFormat
+     */
+    public void processInput() throws EmptyFileException, NumberFormatException, InvalidPathException,
+            SecurityException, IOException, FileNotFoundException, InvalidInputFormat {
         Integer bNumber;
         String str = iFp.poll();
         if (str == null) {
             throw new EmptyFileException("Input file empty.");
         }
 
+        /**
+         * Loop until last line
+         */
         while (str != null) {
             String tokens[] = str.split(":");
             bNumber = Integer.parseInt(tokens[0]);
@@ -50,7 +77,7 @@ public class Parser {
             str = tokens[1];
             String[] values = str.split(",");
             for (String s : values) {
-                if (s.equals(""))
+                if (s.equals("") || s.contains(" "))
                     throw new InvalidInputFormat("Invalid field in input file");
             }
             MyLogger.writeMessage("Reading from input file", MyLogger.DebugLevel.PARSER);
@@ -73,6 +100,10 @@ public class Parser {
 
             StudentRecord record = replicaTree_0.findRecord(bNumber);
 
+            /**
+             * If block is for when the node dosent already exist. Else block is when a node
+             * already exists
+             */
             if (record == null) {
                 StudentRecord replica_Node_0 = new StudentRecord(bNumber, firstName, lastName, gpa, major, skills);
                 StudentRecord replica_Node_1 = replica_Node_0.clone();
@@ -110,14 +141,28 @@ public class Parser {
         iFp.close();
     }
 
-    public void processModify() throws IOException, EmptyFileException, NumberFormatException {
+    /**
+     * Parses throught the entire input file and processes each line at a time
+     * 
+     * @throws EmptyFileException
+     * @throws NumberFormatException
+     */
+    public void processModify() throws EmptyFileException, IOException, NumberFormatException {
         String str = mFp.poll();
         if (str == null) {
             throw new EmptyFileException("Modify file empty.");
         }
 
+        /**
+         * Loop until last line
+         */
         while (str != null) {
             try {
+                for (String s : str.split(",")) {
+                    if (s.contains(" "))
+                        throw new InvalidInputFormat("Input contains spaces");
+                }
+
                 MyLogger.writeMessage("Reading from modify file", MyLogger.DebugLevel.PARSER);
                 String treeNumber = str.split(",")[0];
                 Integer bNumber = Integer.parseInt(str.split(",")[1]);

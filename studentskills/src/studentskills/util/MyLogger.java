@@ -1,7 +1,7 @@
 package studentskills.util;
 
 public class MyLogger {
-
+    /** Enums for specifying debugLevel */
     public static enum DebugLevel {
         CONSTRUCTOR, FILE_PROCESSOR, DRIVER, STUDENT_RECORD, PARSER, NONE
     };
