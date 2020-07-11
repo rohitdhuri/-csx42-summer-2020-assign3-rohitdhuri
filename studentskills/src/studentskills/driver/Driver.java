@@ -5,6 +5,7 @@ import java.nio.file.InvalidPathException;
 
 import studentskills.util.FileDisplayInterface;
 import studentskills.util.FileProcessor;
+import studentskills.util.MyLogger;
 import studentskills.util.Parser;
 import studentskills.util.Results;
 import studentskills.util.exception.EmptyFileException;
@@ -34,28 +35,38 @@ public class Driver {
         Results results_0 = new Results(args[2]);
         Results results_1 = new Results(args[3]);
         Results results_2 = new Results(args[4]);
-        Results error = new Results(args[5]);
-        Results debug = new Results(args[6]);
+        Results results_e = new Results(args[5]);
+
+        MyLogger.setDebugValue(Integer.parseInt(args[6]));
+        MyLogger.writeMessage("Setting debug level " + args[6], MyLogger.DebugLevel.DRIVER);
 
         try {
-            Parser ip = new Parser(fpInput, fpModify, results_0, results_1, results_2, error, debug);
+            Parser ip = new Parser(fpInput, fpModify, results_0, results_1, results_2, results_e);
+
+            MyLogger.writeMessage("Calling processInput in Parser", MyLogger.DebugLevel.DRIVER);
             ip.processInput();
+            MyLogger.writeMessage("Calling processModify in Parser", MyLogger.DebugLevel.DRIVER);
             ip.processModify();
 
             FileDisplayInterface fdi_0 = results_0;
             FileDisplayInterface fdi_1 = results_1;
             FileDisplayInterface fdi_2 = results_2;
-            FileDisplayInterface fdi_3 = error;
+            FileDisplayInterface fdi_e = results_e;
 
+            MyLogger.writeMessage("Calling writeToFile from Results for output1", MyLogger.DebugLevel.DRIVER);
             fdi_0.writeToFile();
+            MyLogger.writeMessage("Calling writeToFile from Results for output2", MyLogger.DebugLevel.DRIVER);
             fdi_1.writeToFile();
+            MyLogger.writeMessage("Calling writeToFile from Results for output3", MyLogger.DebugLevel.DRIVER);
             fdi_2.writeToFile();
-            fdi_3.writeToFile();
+            MyLogger.writeMessage("Calling writeToFile from Results for error", MyLogger.DebugLevel.DRIVER);
+            fdi_e.writeToFile();
+
         } catch (NumberFormatException | EmptyFileException | InvalidPathException | SecurityException
                 | FileNotFoundException e) {
             e.printStackTrace();
         } catch (InvalidInputFormat e) {
-            e.getMessage();
+            System.err.println(e.getMessage());
         }
 
     }

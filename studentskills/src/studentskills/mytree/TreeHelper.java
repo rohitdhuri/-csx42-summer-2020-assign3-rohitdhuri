@@ -41,9 +41,7 @@ public class TreeHelper {
             return;
 
         inorder(root.getLeft());
-
         outputBuffer += root.getBNumber() + " " + root.getSkills() + "\n";
-
         inorder(root.getRight());
     }
 

@@ -1,5 +1,6 @@
 package studentskills.mytree;
 
+import studentskills.util.MyLogger;
 import studentskills.util.Operation;
 import studentskills.util.exception.InvalidInputFormat;
 
@@ -19,6 +20,8 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
 
     public StudentRecord(Integer bNumber, String firstName, String lastName, Double gpa, String major,
             Set<String> skills) {
+        MyLogger.writeMessage("StudentRecord parameterized constructor", MyLogger.DebugLevel.STUDENT_RECORD);
+
         this.bNumber = bNumber;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -73,6 +76,7 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
     }
 
     public void recordChanged(String value, String replacement) throws InvalidInputFormat {
+        MyLogger.writeMessage("Replacing old value with new", MyLogger.DebugLevel.STUDENT_RECORD);
 
         if (value.equals(firstName)) {
             firstName = replacement;
@@ -90,6 +94,8 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
 
     public void recordChanged(Integer bNumber, String inFirstName, String inLastName, Double inGpa, String inMajor,
             Set<String> inSkills) {
+        MyLogger.writeMessage("Replacing old value with new", MyLogger.DebugLevel.STUDENT_RECORD);
+
         if (!firstName.equals(inFirstName)) {
             firstName = inFirstName;
         }
@@ -108,17 +114,22 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
     }
 
     public StudentRecord clone() {
+        MyLogger.writeMessage("Cloning", MyLogger.DebugLevel.STUDENT_RECORD);
         return new StudentRecord(bNumber, firstName, lastName, gpa, major, skills);
     }
 
     public void register(StudentRecord replicaNode) {
         StudentRecord ob = replicaNode;
+        MyLogger.writeMessage("Calling add method to add observer to observers list",
+                MyLogger.DebugLevel.STUDENT_RECORD);
         observers.add(ob);
     }
 
     public void update(StudentRecord subject, Operation op) {
 
         if (op.equals(Operation.MODIFY)) {
+            MyLogger.writeMessage("Update Modify operation", MyLogger.DebugLevel.STUDENT_RECORD);
+
             if (!subject.getFirstName().equals(getFirstName())) {
                 firstName = subject.getFirstName();
             } else if (!subject.getLastName().equals(getLastName())) {
@@ -130,6 +141,8 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
             }
         }
         if (op.equals(Operation.INSERT)) {
+            MyLogger.writeMessage("Update Insert operation", MyLogger.DebugLevel.STUDENT_RECORD);
+
             firstName = subject.getFirstName();
             lastName = subject.getLastName();
             major = subject.getMajor();
@@ -140,7 +153,7 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
 
     @Override
     public void notifyObservers(Operation op) {
-
+        MyLogger.writeMessage("Updating all observers", MyLogger.DebugLevel.STUDENT_RECORD);
         for (ObserverI obs : observers) {
             obs.update(this, op);
         }

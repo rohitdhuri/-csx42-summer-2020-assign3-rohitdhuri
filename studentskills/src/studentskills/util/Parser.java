@@ -15,10 +15,12 @@ import studentskills.util.exception.InvalidInputFormat;
 public class Parser {
     private FileProcessor iFp, mFp;
     private TreeHelper replicaTree_0, replicaTree_1, replicaTree_2;
-    private Results results_0, results_1, results_2, error, debug;
+    private Results results_0, results_1, results_2, results_e;
 
     public Parser(FileProcessor iFp, FileProcessor mFp, Results results_0, Results results_1, Results results_2,
-            Results error, Results debug) {
+            Results results_e) {
+        MyLogger.writeMessage("Parser parameterized constructor", MyLogger.DebugLevel.PARSER);
+
         this.iFp = iFp;
         this.mFp = mFp;
         replicaTree_0 = new TreeHelper();
@@ -27,8 +29,7 @@ public class Parser {
         this.results_0 = results_0;
         this.results_1 = results_1;
         this.results_2 = results_2;
-        this.error = error;
-        this.debug = debug;
+        this.results_e = results_e;
     }
 
     public void processInput() throws IOException, EmptyFileException, NumberFormatException, InvalidPathException,
@@ -48,6 +49,12 @@ public class Parser {
 
             str = tokens[1];
             String[] values = str.split(",");
+            for (String s : values) {
+                if (s.equals(""))
+                    throw new InvalidInputFormat("Invalid field in input file");
+            }
+            MyLogger.writeMessage("Reading from input file", MyLogger.DebugLevel.PARSER);
+
             String firstName = values[0];
             String lastName = values[1];
             Double gpa = Double.parseDouble(values[2]);
@@ -62,6 +69,7 @@ public class Parser {
                     break;
                 }
             }
+            MyLogger.writeMessage("Calling findRecord", MyLogger.DebugLevel.PARSER);
 
             StudentRecord record = replicaTree_0.findRecord(bNumber);
 
@@ -70,24 +78,36 @@ public class Parser {
                 StudentRecord replica_Node_1 = replica_Node_0.clone();
                 StudentRecord replica_Node_2 = replica_Node_0.clone();
 
+                MyLogger.writeMessage("Calling register to register nodes", MyLogger.DebugLevel.PARSER);
                 replica_Node_0.register(replica_Node_1);
+                MyLogger.writeMessage("Calling register to register nodes", MyLogger.DebugLevel.PARSER);
                 replica_Node_0.register(replica_Node_2);
+                MyLogger.writeMessage("Calling add to add node to tree", MyLogger.DebugLevel.PARSER);
                 replicaTree_0.add(replica_Node_0);
 
+                MyLogger.writeMessage("Calling register to register nodes", MyLogger.DebugLevel.PARSER);
                 replica_Node_1.register(replica_Node_0);
+                MyLogger.writeMessage("Calling register to register nodes", MyLogger.DebugLevel.PARSER);
                 replica_Node_1.register(replica_Node_2);
+                MyLogger.writeMessage("Calling add to add node to tree", MyLogger.DebugLevel.PARSER);
                 replicaTree_1.add(replica_Node_1);
 
+                MyLogger.writeMessage("Calling register to register nodes", MyLogger.DebugLevel.PARSER);
                 replica_Node_2.register(replica_Node_0);
+                MyLogger.writeMessage("Calling register to register nodes", MyLogger.DebugLevel.PARSER);
                 replica_Node_2.register(replica_Node_1);
+                MyLogger.writeMessage("Calling add to add node to tree", MyLogger.DebugLevel.PARSER);
                 replicaTree_2.add(replica_Node_2);
             } else {
+                MyLogger.writeMessage("Calling record changed for input file", MyLogger.DebugLevel.PARSER);
                 record.recordChanged(bNumber, firstName, lastName, gpa, major, skills);
+                MyLogger.writeMessage("Calling notify observers", MyLogger.DebugLevel.PARSER);
                 record.notifyObservers(Operation.INSERT);
             }
-
             str = iFp.poll();
         }
+        MyLogger.writeMessage("Calling close from FileProcessor", MyLogger.DebugLevel.PARSER);
+        iFp.close();
     }
 
     public void processModify() throws IOException, EmptyFileException, NumberFormatException {
@@ -98,6 +118,7 @@ public class Parser {
 
         while (str != null) {
             try {
+                MyLogger.writeMessage("Reading from modify file", MyLogger.DebugLevel.PARSER);
                 String treeNumber = str.split(",")[0];
                 Integer bNumber = Integer.parseInt(str.split(",")[1]);
                 String value = (str.split(",")[2]).split(":")[0];
@@ -106,36 +127,46 @@ public class Parser {
                 if (treeNumber.equals(Replica.replicaTree_0.getConstantValue())) {
                     SubjectI record = replicaTree_0.findRecord(bNumber);
                     if (record != null) {
+                        MyLogger.writeMessage("Calling recordChanged", MyLogger.DebugLevel.PARSER);
                         record.recordChanged(value, replacement);
+                        MyLogger.writeMessage("Calling notifyObservers", MyLogger.DebugLevel.PARSER);
                         record.notifyObservers(Operation.MODIFY);
                     }
                 } else if (treeNumber.equals(Replica.replicaTree_1.getConstantValue())) {
                     SubjectI record = replicaTree_1.findRecord(bNumber);
                     if (record != null) {
+                        MyLogger.writeMessage("Calling recordChanged", MyLogger.DebugLevel.PARSER);
                         record.recordChanged(value, replacement);
+                        MyLogger.writeMessage("Calling notifyObservers", MyLogger.DebugLevel.PARSER);
                         record.notifyObservers(Operation.MODIFY);
                     }
                 } else if (treeNumber.equals(Replica.replicaTree_2.getConstantValue())) {
                     SubjectI record = replicaTree_2.findRecord(bNumber);
                     if (record != null) {
+                        MyLogger.writeMessage("Calling recordChanged", MyLogger.DebugLevel.PARSER);
                         record.recordChanged(value, replacement);
+                        MyLogger.writeMessage("Calling notifyObservers", MyLogger.DebugLevel.PARSER);
                         record.notifyObservers(Operation.MODIFY);
                     }
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
-                error.storeOutput("Input field empty in modify file.\n");
+                results_e.storeOutput("Input field empty in modify file.\n");
             } catch (InvalidInputFormat e) {
-                error.storeOutput(e.getMessage());
+                results_e.storeOutput(e.getMessage());
             }
 
             str = mFp.poll();
 
         }
-
+        MyLogger.writeMessage("Calling storeOutput", MyLogger.DebugLevel.PARSER);
         results_0.storeOutput(replicaTree_0.printNodes());
+        MyLogger.writeMessage("Calling storeOutput", MyLogger.DebugLevel.PARSER);
         results_1.storeOutput(replicaTree_1.printNodes());
+        MyLogger.writeMessage("Calling storeOutput", MyLogger.DebugLevel.PARSER);
         results_2.storeOutput(replicaTree_2.printNodes());
 
+        MyLogger.writeMessage("Calling close from FileProcessor", MyLogger.DebugLevel.PARSER);
+        mFp.close();
     }
 
 }

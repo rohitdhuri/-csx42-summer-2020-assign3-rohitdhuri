@@ -25,6 +25,7 @@ public class FileProcessor {
      */
     public FileProcessor(String inputFilePath)
             throws InvalidPathException, SecurityException, FileNotFoundException, IOException {
+        MyLogger.writeMessage("FileProcessor parameterized constructor", MyLogger.DebugLevel.FILE_PROCESSOR);
 
         if (!Files.exists(Paths.get(inputFilePath))) {
             throw new FileNotFoundException("invalid input file or input file in incorrect location");
