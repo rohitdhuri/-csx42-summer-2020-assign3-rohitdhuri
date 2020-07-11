@@ -14,6 +14,8 @@ import studentskills.util.exception.InvalidInputFormat;
 
 /**
  * Parser class contains methods to process the input files
+ * 
+ * @author - Rohit Mahendra Dhuri
  */
 public class Parser {
     private FileProcessor iFp, mFp;

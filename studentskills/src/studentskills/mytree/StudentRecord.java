@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents a Node and holds all attributes of a record also overrides subject
+ * and observer methods
+ * 
+ * @author Rohit Mahendra Dhuri
+ *
+ */
 public class StudentRecord implements SubjectI, ObserverI, Cloneable {
     private StudentRecord left;
     private StudentRecord right;
@@ -254,6 +261,8 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
 
     @Override
     public String toString() {
-        return "Class: StudentRecord, Data Members: [ left= "+ left +" right ="+ right +" bNumber= "+ bNumber +" major= "+ major +" skills= "+ skills +" gpa= "+ gpa +" firstName= "+ firstName +" lastName= "+ lastName +" observers= "+ observers+ " ]";
+        return "Class: StudentRecord, Data Members: [ left= " + left + " right =" + right + " bNumber= " + bNumber
+                + " major= " + major + " skills= " + skills + " gpa= " + gpa + " firstName= " + firstName
+                + " lastName= " + lastName + " observers= " + observers + " ]";
     }
 }

@@ -50,7 +50,7 @@ Input file is read and processed one line at a time. If a record with the bNumbe
 The modify file is processed one line at a time and the value of specified field is modified. After this its observers are notified and updated.
 
 4. Time Complexity: 
-For Entire BST traversal (printNodes) - O(n)
+For Entire BST traversal (printNodes) - O(n). 
 For Searching a node in BST (findNode) - O(n)
 
 5. Slack days: 

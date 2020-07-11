@@ -11,6 +11,10 @@ import studentskills.util.Results;
 import studentskills.util.exception.EmptyFileException;
 import studentskills.util.exception.InvalidInputFormat;
 
+/**
+ * @author Rohit Mahendra Dhuri
+ *
+ */
 public class Driver {
     private static final int REQUIRED_NUMBER_OF_CMDLINE_ARGS = 7;
 
@@ -29,11 +33,11 @@ public class Driver {
             System.exit(0);
         }
 
-        if(args[0].isEmpty()){
+        if (args[0].isEmpty()) {
             System.err.println("Missing input file.");
             System.exit(0);
         }
-        if(args[1].isEmpty()){
+        if (args[1].isEmpty()) {
             System.err.println("Missing modify file.");
             System.exit(0);
         }
@@ -42,7 +46,7 @@ public class Driver {
         FileProcessor fpInput = new FileProcessor(args[0]);
         FileProcessor fpModify = new FileProcessor(args[1]);
 
-        /**Providing output file paths to Results class dutring initialization */
+        /** Providing output file paths to Results class dutring initialization */
         Results results_0 = new Results(args[2]);
         Results results_1 = new Results(args[3]);
         Results results_2 = new Results(args[4]);
@@ -64,7 +68,7 @@ public class Driver {
             FileDisplayInterface fdi_2 = results_2;
             FileDisplayInterface fdi_e = results_e;
 
-            /**Writing to file using the FileDisplayInterface */
+            /** Writing to file using the FileDisplayInterface */
             MyLogger.writeMessage("Calling writeToFile from Results for output1", MyLogger.DebugLevel.DRIVER);
             fdi_0.writeToFile();
             MyLogger.writeMessage("Calling writeToFile from Results for output2", MyLogger.DebugLevel.DRIVER);

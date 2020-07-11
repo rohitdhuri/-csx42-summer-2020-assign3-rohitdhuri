@@ -2,6 +2,12 @@ package studentskills.mytree;
 
 import studentskills.util.MyLogger;
 
+/**
+ * Contains all methods necessary to implement a Binary Search Tree.
+ * 
+ * @author Rohit Mahendra Dhuri
+ *
+ */
 public class TreeHelper {
     private StudentRecord root;
     private String outputBuffer;
