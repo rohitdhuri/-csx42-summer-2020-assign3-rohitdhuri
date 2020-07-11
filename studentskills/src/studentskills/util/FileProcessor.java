@@ -25,7 +25,7 @@ public class FileProcessor {
      */
     public FileProcessor(String inputFilePath)
             throws InvalidPathException, SecurityException, FileNotFoundException, IOException {
-        MyLogger.writeMessage("FileProcessor parameterized constructor", MyLogger.DebugLevel.FILE_PROCESSOR);
+        MyLogger.writeMessage("FileProcessor parameterized constructor", MyLogger.DebugLevel.CONSTRUCTOR);
 
         if (!Files.exists(Paths.get(inputFilePath))) {
             throw new FileNotFoundException("invalid input file or input file in incorrect location");
@@ -53,4 +53,8 @@ public class FileProcessor {
         reader.close();
     }
 
+    @Override
+    public String toString() {
+        return "Class: FileProcessor, Data Members: [ reader= "+reader+" ]";
+    }
 }

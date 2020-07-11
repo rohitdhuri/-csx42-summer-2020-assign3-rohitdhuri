@@ -33,7 +33,7 @@ public class Parser {
      */
     public Parser(FileProcessor iFp, FileProcessor mFp, Results results_0, Results results_1, Results results_2,
             Results results_e) {
-        MyLogger.writeMessage("Parser parameterized constructor", MyLogger.DebugLevel.PARSER);
+        MyLogger.writeMessage("Parser parameterized constructor", MyLogger.DebugLevel.CONSTRUCTOR);
 
         this.iFp = iFp;
         this.mFp = mFp;
@@ -58,7 +58,6 @@ public class Parser {
      */
     public void processInput() throws EmptyFileException, NumberFormatException, InvalidPathException,
             SecurityException, IOException, FileNotFoundException, InvalidInputFormat {
-        Integer bNumber;
         String str = iFp.poll();
         if (str == null) {
             throw new EmptyFileException("Input file empty.");
@@ -69,7 +68,7 @@ public class Parser {
          */
         while (str != null) {
             String tokens[] = str.split(":");
-            bNumber = Integer.parseInt(tokens[0]);
+            Integer bNumber = Integer.parseInt(tokens[0]);
             if (String.valueOf(bNumber).length() != 4) {
                 throw new InvalidInputFormat("Invalid bNumber");
             }
@@ -197,7 +196,7 @@ public class Parser {
             } catch (ArrayIndexOutOfBoundsException e) {
                 results_e.storeOutput("Input field empty in modify file.\n");
             } catch (InvalidInputFormat e) {
-                results_e.storeOutput(e.getMessage());
+                results_e.storeOutput(e.getMessage()+"\n");
             }
 
             str = mFp.poll();
@@ -214,4 +213,8 @@ public class Parser {
         mFp.close();
     }
 
+    @Override
+    public String toString() {
+        return "Class: Parser, Data Members: [ iFp= "+iFp+" mFp= "+ mFp+" results_0= "+results_0+" results_1= "+results_1+" results_2= "+results_2+" results_e= "+results_e+" replicaTree_0= "+replicaTree_0+" replicaTree_1= "+replicaTree_1+" replicaTree_2= "+ replicaTree_2;
+    }
 }

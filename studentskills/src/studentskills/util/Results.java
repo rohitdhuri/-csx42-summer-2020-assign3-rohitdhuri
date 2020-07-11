@@ -22,6 +22,7 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface {
      */
 
     public Results(String path) {
+        MyLogger.writeMessage("Results parameterized constructor", MyLogger.DebugLevel.CONSTRUCTOR);
         filePath = path;
         output = "";
     }

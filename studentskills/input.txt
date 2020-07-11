@@ -2,3 +2,5 @@
 2345:michael,khanwald,3.9,Chemistry,Skill0,Skill7,Skill8,Skill5,Skill3,Skill4,Skill3,Skill9
 1124:Jane,smith,3.9,Chemistry,Skill9,Skill8,Skill7,Skill6,Skill2,Skill3,Skill4
 2345:Mikkel,khanwald,4.0,Mathematics,Skill99
+4563:Rohit,Sharma,3.8,Algebra,Skill4,Skill2,Skill0
+1333:Amitabh,Bacchan,3.9,Arts,Skill5,Skill12,Skill14,Skill54

@@ -1,5 +1,7 @@
 package studentskills.mytree;
 
+import studentskills.util.MyLogger;
+
 public class TreeHelper {
     private StudentRecord root;
     private String outputBuffer;
@@ -8,6 +10,7 @@ public class TreeHelper {
      * Constructor inilatizes root to null
      */
     public TreeHelper() {
+        MyLogger.writeMessage("TreeHelper parameterized constructor", MyLogger.DebugLevel.CONSTRUCTOR);
         root = null;
     }
 
@@ -89,5 +92,10 @@ public class TreeHelper {
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Class: TreeHelper, Data Members: [root= " + root + " outputBuffer= " + outputBuffer + " ]";
     }
 }

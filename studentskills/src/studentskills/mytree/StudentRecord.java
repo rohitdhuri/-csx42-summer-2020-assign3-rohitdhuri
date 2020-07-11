@@ -30,7 +30,7 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
      */
     public StudentRecord(Integer bNumber, String firstName, String lastName, Double gpa, String major,
             Set<String> skills) {
-        MyLogger.writeMessage("StudentRecord parameterized constructor", MyLogger.DebugLevel.STUDENT_RECORD);
+        MyLogger.writeMessage("StudentRecord parameterized constructor", MyLogger.DebugLevel.CONSTRUCTOR);
 
         this.bNumber = bNumber;
         this.firstName = firstName;
@@ -250,5 +250,10 @@ public class StudentRecord implements SubjectI, ObserverI, Cloneable {
         for (ObserverI obs : observers) {
             obs.update(this, op);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Class: StudentRecord, Data Members: [ left= "+ left +" right ="+ right +" bNumber= "+ bNumber +" major= "+ major +" skills= "+ skills +" gpa= "+ gpa +" firstName= "+ firstName +" lastName= "+ lastName +" observers= "+ observers+ " ]";
     }
 }

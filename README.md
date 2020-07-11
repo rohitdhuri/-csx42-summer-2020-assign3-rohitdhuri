@@ -32,27 +32,29 @@ ant -buildfile studentskills/src/build.xml run -Dinput="input.txt" -Dmodify="mod
 Note: Arguments accept the absolute path of the files.
 
 ## Description:
-1. Assumption
+1. Assumption: 
 Absolute path of the input file is provided.
 All the operations that need to be performed are according to the given input format.
 There are no spaces before or after the comma character.
 Gpa is in double format and bNumber is in integer format.
 
-1. Data Structures
+1. Data Structures: 
 String have been used as output buffers.
 Sets have been used for storing multiple strings.
 Arraylists have been used for storing lis of observers.
 Arrays have been used while splitting Input strings for parsing.
 
-3. Code Working
+3. Code Working: 
 Program accpets 7 arguments.
-Input file is read and processed one line at a time. If a record with the bNumber alrady exits then its values are updated if not then a record is made and added to the tree and its observers are updated.
+Input file is read and processed one line at a time. If a record with the bNumber alrady exits then its values are updated if not then a record is made and added to the Binary Search tree and its observers are updated.
 The modify file is processed one line at a time and the value of specified field is modified. After this its observers are notified and updated.
 
-1. Time Complexity
-For Entire tree traversal (printNodes) - O(n)
-For Searching a node in tree (findNode) - O(n)
+4. Time Complexity: 
+For Entire BST traversal (printNodes) - O(n)
+For Searching a node in BST (findNode) - O(n)
 
+5. Slack days: 
+Used one slack day.
 
 ## References
 
@@ -66,6 +68,6 @@ I am involved in plagiarism or cheating an official form will be
 submitted to the Academic Honesty Committee of the Watson School to
 determine the action that needs to be taken. "
 
-Date: [07/10/2020]
+Date: [07/11/2020]
 
 

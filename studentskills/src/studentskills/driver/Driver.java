@@ -29,6 +29,15 @@ public class Driver {
             System.exit(0);
         }
 
+        if(args[0].isEmpty()){
+            System.err.println("Missing input file.");
+            System.exit(0);
+        }
+        if(args[1].isEmpty()){
+            System.err.println("Missing modify file.");
+            System.exit(0);
+        }
+
         /** Providing input file paths to FileProcessor during initalization */
         FileProcessor fpInput = new FileProcessor(args[0]);
         FileProcessor fpModify = new FileProcessor(args[1]);
